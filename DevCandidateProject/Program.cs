@@ -9,10 +9,10 @@ namespace DevCandidateProject
 	public class Program
 	{
 		/// <summary>
-		///		The application's main entry point and terminal loop.
+		/// The application's main entry point and terminal loop.
 		/// </summary>
 		/// <param name="args">
-		///		Any command line arguments passed to the executable.
+		/// Any command line arguments passed to the executable.
 		/// </param>
 		public static void Main(string[] args)
 		{
@@ -126,12 +126,12 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///		Asks the user if they would like to select a custom input folder, ensures the entry's
-		///		validity, or defaults to the Visual Studio solution level folder's 'Classes' subfolder.
+		/// Asks the user if they would like to select a custom input folder, ensures the entry's
+		/// validity, or defaults to the Visual Studio solution level folder's 'Classes' subfolder.
 		/// </summary>
 		/// <returns>
-		///		Returns the resolved <see cref="DirectoryInfo"/> indicating where the user would like to
-		///		perform the query on.
+		/// Returns the resolved <see cref="DirectoryInfo"/> indicating where the user would like to
+		/// perform the query on.
 		/// </returns>
 		private static DirectoryInfo resolveInputDirectory()
 		{
@@ -192,11 +192,11 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///		Notifies the user that the query is complete, and asks the user if they would like to
-		///		open the generated output file in notepad.
+		/// Notifies the user that the query is complete, and asks the user if they would like to
+		/// open the generated output file in notepad.
 		/// </summary>
 		/// <param name="outputFilePath">
-		///		The <see cref="string"/> output path of the generated file.
+		/// The <see cref="string"/> output path of the generated file.
 		/// </param>
 		private static void onQueryComplete(
 			string outputFilePath)
@@ -233,14 +233,14 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///		Gets all *.csv files located in the <paramref name="csvFileRootFolder"/> root, and returns
-		///		an <see cref="IEnumerable{T}"/> of each parsed <see cref="ClassGrades"/> object.
+		/// Gets all *.csv files located in the <paramref name="csvFileRootFolder"/> root, and returns
+		/// an <see cref="IEnumerable{T}"/> of each parsed <see cref="ClassGrades"/> object.
 		/// </summary>
 		/// <param name="csvFileRootFolder">
-		///		The <see cref="DirectoryInfo"/> representing the directory location of the csv files to parse. 
+		/// The <see cref="DirectoryInfo"/> representing the directory location of the csv files to parse. 
 		/// </param>
 		/// <returns>
-		///		Returns an <see cref="IEnumerable{T}"/> of each parsed <see cref="ClassGrades"/> object.
+		/// Returns an <see cref="IEnumerable{T}"/> of each parsed <see cref="ClassGrades"/> object.
 		/// </returns>
 		public static IEnumerable<ClassGrades> GetAllStudentGradesForAllFiles(
 			DirectoryInfo csvFileRootFolder)
