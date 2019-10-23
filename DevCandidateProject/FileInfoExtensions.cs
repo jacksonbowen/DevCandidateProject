@@ -4,18 +4,18 @@ using System.Linq;
 namespace DevCandidateProject
 {
 	/// <summary>
-	///Extension methods for the <see cref="FileInfo"/> type.
+	/// Extension methods for the <see cref="FileInfo"/> type.
 	/// </summary>
 	public static class FileInfoExtensions
 	{
 		/// <summary>
-		///Gets the name of the <see cref="FileInfo"/> object, excluding the file's extension.
+		/// Gets the name of the <see cref="FileInfo"/> object, excluding the file's extension.
 		/// </summary>
 		/// <param name="this">
-		///The <see cref="FileInfo"/> in which to get the name of.
+		/// The <see cref="FileInfo"/> in which to get the name of.
 		/// </param>
 		/// <returns>
-		///Returns the name of the <see cref="FileInfo"/> object, excluding the file's extension.
+		/// Returns the name of the <see cref="FileInfo"/> object, excluding the file's extension.
 		/// </returns>
 		public static string GetFileNameWithoutExtension(
 			this FileInfo @this)
