@@ -6,9 +6,9 @@ using System.Linq;
 namespace DevCandidateProject
 {
 	/// <summary>
-	///The <see cref="ClassGrades"/> class represents a parsed .csv file of one class's grades,
-	///consisting of 10 students. Contains information about the class, the average grades, and the
-	///best and worst performing students.
+	/// The <see cref="ClassGrades"/> class represents a parsed .csv file of one class's grades,
+	/// consisting of 10 students. Contains information about the class, the average grades, and the
+	/// best and worst performing students.
 	/// </summary>
 	public class ClassGrades
 	{
@@ -18,7 +18,7 @@ namespace DevCandidateProject
 		private readonly string _className;
 
 		/// <summary>
-		///Gets the student with the highest average grade, expressed in a <see cref="StudentGrade"/>.
+		/// Gets the student with the highest average grade, expressed in a <see cref="StudentGrade"/>.
 		/// </summary>
 		public StudentGrade HighestPerformingStudent
 		{
@@ -26,8 +26,8 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///Gets the student with the lowest average grade, (grades of zero excluded), expressed in a
-		///<see cref="StudentGrade"/>.
+		/// Gets the student with the lowest average grade, (grades of zero excluded), expressed in a
+		/// <see cref="StudentGrade"/>.
 		/// </summary>
 		public StudentGrade LowestPerformingStudent
 		{
@@ -35,8 +35,8 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///Gets all student grades that were parsed from the class's .csv file, including any students
-		///with grades of zero. The collection is sorted by <see cref="StudentGrade.Grade"/>, ascending.  
+		/// Gets all student grades that were parsed from the class's .csv file, including any students
+		/// with grades of zero. The collection is sorted by <see cref="StudentGrade.Grade"/>, ascending.  
 		/// </summary>
 		public IReadOnlyCollection<StudentGrade> Grades
 		{
@@ -44,8 +44,8 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///Gets all student grades that were parsed from the class's .csv file, excluding any students
-		///with grades of zero. The collection is sorted by <see cref="StudentGrade.Grade"/>, ascending.  
+		/// Gets all student grades that were parsed from the class's .csv file, excluding any students
+		/// with grades of zero. The collection is sorted by <see cref="StudentGrade.Grade"/>, ascending.  
 		/// </summary>
 		public IReadOnlyCollection<StudentGrade> GradesNonZero
 		{
@@ -53,7 +53,7 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///Gets all student grades that were parsed from the class's .csv file that had grades of zero.  
+		/// Gets all student grades that were parsed from the class's .csv file that had grades of zero.  
 		/// </summary>
 		public IReadOnlyCollection<StudentGrade> GradesZero
 		{
@@ -61,8 +61,8 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///Gets the class average of all students in the class, excluding any students with a grade
-		///of zero from the calculation.
+		/// Gets the class average of all students in the class, excluding any students with a grade
+		/// of zero from the calculation.
 		/// </summary>
 		public double Average
 		{
@@ -70,7 +70,7 @@ namespace DevCandidateProject
 		}
 
 		/// <summary>
-		///Gets the class name, identified by the csv file name, with a space inserted for formatting.
+		/// Gets the class name, identified by the csv file name, with a space inserted for formatting.
 		/// </summary>
 		public string ClassName
 		{
@@ -79,15 +79,15 @@ namespace DevCandidateProject
 
 
 		/// <summary>
-		///The constructor for the <see cref="ClassGrades"/> class.
+		/// The constructor for the <see cref="ClassGrades"/> class.
 		/// </summary>
 		/// <param name="grades">
-		///An <see cref="IEnumerable{T}"/> consisting of all of the grades in the class parsed from
-		///the csv file.
+		/// An <see cref="IEnumerable{T}"/> consisting of all of the grades in the class parsed from
+		/// the csv file.
 		/// </param>
 		/// <param name="csvFileName">
-		///The name of the csv file in which the <see cref="ClassGrades"/> were parsed from, excluding
-		///the file extension.
+		/// The name of the csv file in which the <see cref="ClassGrades"/> were parsed from, excluding
+		/// the file extension.
 		/// </param>
 		public ClassGrades(
 			IEnumerable<StudentGrade> grades,
@@ -112,14 +112,14 @@ namespace DevCandidateProject
 		
 
 		/// <summary>
-		///Static method that parses the specified <paramref name="csvGradeFile"/> file into a
-		///<see cref="ClassGrades"/> object.
+		/// Static method that parses the specified <paramref name="csvGradeFile"/> file into a
+		/// <see cref="ClassGrades"/> object.
 		/// </summary>
 		/// <param name="csvGradeFile">
-		///A <see cref="FileInfo"/> object representing the source csv file containing the grades.
+		/// A <see cref="FileInfo"/> object representing the source csv file containing the grades.
 		/// </param>
 		/// <returns>
-		///Returns a <see cref="ClassGrades"/> object from the parsed csv file.
+		/// Returns a <see cref="ClassGrades"/> object from the parsed csv file.
 		/// </returns>
 		public static ClassGrades ParseFromCsvFile(
 			FileInfo csvGradeFile)
