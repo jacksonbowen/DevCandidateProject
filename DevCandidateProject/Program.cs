@@ -17,7 +17,6 @@ namespace DevCandidateProject
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Developer Candidate Project Terminal");
-			Console.WriteLine("type \"query\" to query all the student grades.");
 
 			var hasQuit = false;
 			var command = "";
@@ -33,8 +32,10 @@ namespace DevCandidateProject
 
 			// loop for entry of commands, while the user has not chosen to quit the application
 			while (!hasQuit)
-			{
-				command = Console.ReadLine();
+            {
+                Console.WriteLine("type \"query\" to query all the student grades, or type \"quit\" to quit.");
+
+                command = Console.ReadLine();
 				command = command?.ToLower();
 
 				switch (command)
@@ -62,9 +63,9 @@ namespace DevCandidateProject
 									.Last();
 
 								streamWriter
-									.WriteLineEx("============================================")
+									.WriteLineEx("=============================================")
 									.WriteLineEx($"|| Best Performing Class:          {bestPerformingClass.ClassName} ||")
-									.WriteLineEx("============================================")
+									.WriteLineEx("=============================================")
 									.WriteLineEx();
 
 								// gets the average of all of the classes' averages
@@ -205,11 +206,11 @@ namespace DevCandidateProject
 			{
 				Console.WriteLine($"Query finished! Output file is located at \"{outputFilePath}\".");
 				Console.WriteLine("Would you like to open the file now? (Y \\ N) ");
-				Console.ReadLine();
+
 				var userEntry = Console.ReadLine();
 
-				if (string.IsNullOrWhiteSpace(userEntry))
-					continue;
+                if (string.IsNullOrWhiteSpace(userEntry))
+                    userEntry = Console.ReadLine();
 
 				switch (userEntry.ToUpper())
 				{
