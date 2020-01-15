@@ -32,96 +32,96 @@ namespace DevCandidateProject
 
 			// loop for entry of commands, while the user has not chosen to quit the application
 			while (!hasQuit)
-            {
-                Console.WriteLine("type \"query\" to query all the student grades, or type \"quit\" to quit.");
+			{
+				Console.WriteLine("type \"query\" to query all the student grades, or type \"quit\" to quit.");
 
-                command = Console.ReadLine();
+				command = Console.ReadLine();
 				command = command?.ToLower();
 
 				switch (command)
 				{
 					// the 'query' command
 					case "query":
-					{
-						var inputDirectory = resolveInputDirectory();
-						var outputFilePath = outputDirectory + @"\output.txt";
-
-						// gets the ClassGrades for each csv file in the input directory, and converts it to an array
-						var allClassGrades = GetAllStudentGradesForAllFiles(inputDirectory)
-							.ToArray();
-
-						// opens a fileStream for the output file, with Create and ReadWrite permissions
-						using (var fileStream = File.Open(outputFilePath,
-							FileMode.Create,
-							FileAccess.ReadWrite))
 						{
-							using (var streamWriter = new StreamWriter(fileStream))
+							var inputDirectory = resolveInputDirectory();
+							var outputFilePath = outputDirectory + @"\output.txt";
+
+							// gets the ClassGrades for each csv file in the input directory, and converts it to an array
+							var allClassGrades = GetAllStudentGradesForAllFiles(inputDirectory)
+								.ToArray();
+
+							// opens a fileStream for the output file, with Create and ReadWrite permissions
+							using (var fileStream = File.Open(outputFilePath,
+								FileMode.Create,
+								FileAccess.ReadWrite))
 							{
-								// orders all of the class grades by their average grades, and takes the last element
-								var bestPerformingClass = allClassGrades
-									.OrderBy(t => t.Average)
-									.Last();
-
-								streamWriter
-									.WriteLineEx("=============================================")
-									.WriteLineEx($"|| Best Performing Class:          {bestPerformingClass.ClassName} ||")
-									.WriteLineEx("=============================================")
-									.WriteLineEx();
-
-								// gets the average of all of the classes' averages
-								var averageOfAllClasses = allClassGrades.Average(t => t.Average);
-
-								streamWriter.WriteLineEx($"Average of All Classes             {averageOfAllClasses:##.00}%");
-
-								var totalNumberOfNonZeroStudents =
-									allClassGrades.Sum(t => t.GradesNonZero.Count);
-
-								var totalNumberOfExcludedStudents =
-									allClassGrades.Sum(t => t.GradesZero.Count);
-
-								var totalNumberOfStudents =
-									totalNumberOfNonZeroStudents + totalNumberOfExcludedStudents;
-
-								var totalNumberOfClasses = allClassGrades.Length;
-
-								streamWriter
-									.WriteLineEx($"Total Students in Calculation      {totalNumberOfNonZeroStudents} ({totalNumberOfExcludedStudents} excluded)")
-									.WriteLineEx($"Total Students:                    {totalNumberOfStudents} in {totalNumberOfClasses} classes")
-									.WriteLineEx();
-
-								// writes each classGrade object's detailed information to the file / console
-								foreach (var classGrades in allClassGrades)
+								using (var streamWriter = new StreamWriter(fileStream))
 								{
-									streamWriter.WriteLineEx($"{classGrades.ClassName} Info");
+									// orders all of the class grades by their average grades, and takes the last element
+									var bestPerformingClass = allClassGrades
+										.OrderBy(t => t.Average)
+										.Last();
 
 									streamWriter
-										.WriteLineEx($"  Number of Students in Calc:      {classGrades.GradesNonZero.Count}")
-										.WriteLineEx($"  Class Average:                   {classGrades.Average:##.00}%")
-										.WriteLineEx($"    Excluded Students              {classGrades.GradesZero.Count}");
+										.WriteLineEx("=============================================")
+										.WriteLineEx($"|| Best Performing Class:          {bestPerformingClass.ClassName} ||")
+										.WriteLineEx("=============================================")
+										.WriteLineEx();
 
-									// lists each student that were excluded from the calculation due to having a grade of 0
-									foreach (var excludedStudents in classGrades.GradesZero) 
+									// gets the average of all of the classes' averages
+									var averageOfAllClasses = allClassGrades.Average(t => t.Average);
+
+									streamWriter.WriteLineEx($"Average of All Classes             {averageOfAllClasses:##.00}%");
+
+									var totalNumberOfNonZeroStudents =
+										allClassGrades.Sum(t => t.GradesNonZero.Count);
+
+									var totalNumberOfExcludedStudents =
+										allClassGrades.Sum(t => t.GradesZero.Count);
+
+									var totalNumberOfStudents =
+										totalNumberOfNonZeroStudents + totalNumberOfExcludedStudents;
+
+									var totalNumberOfClasses = allClassGrades.Length;
+
+									streamWriter
+										.WriteLineEx($"Total Students in Calculation      {totalNumberOfNonZeroStudents} ({totalNumberOfExcludedStudents} excluded)")
+										.WriteLineEx($"Total Students:                    {totalNumberOfStudents} in {totalNumberOfClasses} classes")
+										.WriteLineEx();
+
+									// writes each classGrade object's detailed information to the file / console
+									foreach (var classGrades in allClassGrades)
 									{
-										streamWriter.WriteLineEx($"      {excludedStudents.StudentName}");
+										streamWriter.WriteLineEx($"{classGrades.ClassName} Info");
+
+										streamWriter
+											.WriteLineEx($"  Number of Students in Calc:      {classGrades.GradesNonZero.Count}")
+											.WriteLineEx($"  Class Average:                   {classGrades.Average:##.00}%")
+											.WriteLineEx($"    Excluded Students              {classGrades.GradesZero.Count}");
+
+										// lists each student that were excluded from the calculation due to having a grade of 0
+										foreach (var excludedStudents in classGrades.GradesZero)
+										{
+											streamWriter.WriteLineEx($"      {excludedStudents.StudentName}");
+										}
+										streamWriter.WriteLineEx();
 									}
-									streamWriter.WriteLineEx();
 								}
 							}
+							onQueryComplete(outputFilePath);
+							break;
 						}
-						onQueryComplete(outputFilePath);
-						break;
-					}
 					case "quit":
 					case "q":
-					{
-						hasQuit = true;
-						break;
-					}
+						{
+							hasQuit = true;
+							break;
+						}
 					default:
-					{
-						Console.WriteLine("not a recognized command.");
-						break;
-					}
+						{
+							Console.WriteLine("not a recognized command.");
+							break;
+						}
 				}
 			}
 		}
@@ -144,50 +144,50 @@ namespace DevCandidateProject
 				switch (char.ToUpper(userEntry))
 				{
 					case 'Y':
-					{
-						while (true)
 						{
-							Console.WriteLine($"Enter a custom input folder: ");
-							Console.ReadLine();
-							var directoryUserEntry = Console.ReadLine();
-
-							if (!string.IsNullOrWhiteSpace(directoryUserEntry))
+							while (true)
 							{
-								var directoryInfo = new DirectoryInfo(directoryUserEntry);
+								Console.WriteLine($"Enter a custom input folder: ");
+								Console.ReadLine();
+								var directoryUserEntry = Console.ReadLine();
 
-								if (directoryInfo.Exists)
-									return directoryInfo;
+								if (!string.IsNullOrWhiteSpace(directoryUserEntry))
+								{
+									var directoryInfo = new DirectoryInfo(directoryUserEntry);
 
-								Console.WriteLine(
-									$"The input text \"{directoryUserEntry}\" is not a valid directory.");
+									if (directoryInfo.Exists)
+										return directoryInfo;
+
+									Console.WriteLine(
+										$"The input text \"{directoryUserEntry}\" is not a valid directory.");
+								}
 							}
 						}
-					}
 					case 'N':
-					{
-						var currentDirectory = Directory.GetCurrentDirectory();
+						{
+							var currentDirectory = Directory.GetCurrentDirectory();
 
-						var workingDirectory = new DirectoryInfo(currentDirectory);
+							var workingDirectory = new DirectoryInfo(currentDirectory);
 
-						var projectPath = workingDirectory.Parent?.Parent?.Parent;
-						
-						if (projectPath == null)
-							throw new NotSupportedException(
-								$"Cannot find source folder in project directory.");
+							var projectPath = workingDirectory.Parent?.Parent?.Parent;
 
-						var classesFolderPath = new DirectoryInfo(
-							$@"{projectPath}\Classes\");
-						
-						Console.WriteLine($"Using default working directory \"{classesFolderPath.FullName}\".");
+							if (projectPath == null)
+								throw new NotSupportedException(
+									$"Cannot find source folder in project directory.");
 
-						return classesFolderPath;
+							var classesFolderPath = new DirectoryInfo(
+								$@"{projectPath}\Classes\");
 
-					}
+							Console.WriteLine($"Using default working directory \"{classesFolderPath.FullName}\".");
+
+							return classesFolderPath;
+
+						}
 					default:
-					{
-						Console.WriteLine($"Invalid Entry.");
-						break;
-					}
+						{
+							Console.WriteLine($"Invalid Entry.");
+							break;
+						}
 				}
 			}
 		}
@@ -209,26 +209,26 @@ namespace DevCandidateProject
 
 				var userEntry = Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(userEntry))
-                    userEntry = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(userEntry))
+					userEntry = Console.ReadLine();
 
 				switch (userEntry.ToUpper())
 				{
 					case "Y":
-					{
-						// opens the file in notepad by passing the output file path in as an argument
-						Process.Start("notepad.exe", outputFilePath);
-						return;
-					}
+						{
+							// opens the file in notepad by passing the output file path in as an argument
+							Process.Start("notepad.exe", outputFilePath);
+							return;
+						}
 					case "N":
-					{
-						return;
-					}
+						{
+							return;
+						}
 					default:
-					{
-						Console.WriteLine($"Invalid Entry.");
-						break;
-					}
+						{
+							Console.WriteLine($"Invalid Entry.");
+							break;
+						}
 				}
 			}
 		}
