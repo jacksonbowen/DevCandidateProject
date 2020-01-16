@@ -7,12 +7,14 @@
 						 xmlns:io="clr-namespace:System.IO;assembly=mscorlib"
 						 xmlns:viewModels="clr-namespace:DevCandidateProject.UI.ViewModels"
 						 xmlns:domain="clr-namespace:DevCandidateProject.Data.Domain;assembly=DevCandidateProject.Data"
+						 xmlns:valueConverters="clr-namespace:DevCandidateProject.UI.Markup.ValueConverters"
 						 cal:Bind.AtDesignTime="True"
 						 d:DataContext="{d:DesignInstance viewModels:RootViewModel, IsDesignTimeCreatable=True}"
 						 mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="1200">
+             Height="700" Width="1200">
 	<UserControl.Resources>
 		<BooleanToVisibilityConverter x:Key="b2vc"/>
+		<valueConverters:DoubleToPercentageConverter x:Key="b2pc"/>
 
 		<GridLength x:Key="LeftColumnGridLength">230</GridLength>
 
@@ -22,7 +24,7 @@
 							Margin="10 5">
 				<StackPanel Orientation="Vertical"
 										Margin="10 5">
-					<Label Content="Class A Info"
+					<Label Content="{Binding ClassName}"
 								 Foreground="White"
 								 FontFamily="Segoe UI"
 								 FontSize="14pt"
@@ -39,13 +41,13 @@
 							</Grid.ColumnDefinitions>
 
 							<Label Content="Number of Students in Calc:"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
+										 Foreground="White"
+										 FontFamily="Segoe UI"
+										 FontSize="12pt"
+										 FontWeight="Light"
+										 HorizontalContentAlignment="Left"
+										 Padding="5"
+										 Margin="0"/>
 
 							<Label Grid.Column="1"
 										 Content="{Binding GradesNonZero.Count}"
@@ -65,23 +67,23 @@
 							</Grid.ColumnDefinitions>
 
 							<Label Content="Class Average: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
+										 Foreground="White"
+										 FontFamily="Segoe UI"
+										 FontSize="12pt"
+										 FontWeight="Light"
+										 HorizontalContentAlignment="Left"
+										 Padding="5"
+										 Margin="0"/>
 
 							<Label Grid.Column="1"
-										 Content="{Binding Average}"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
+										 Content="{Binding Average, Converter={StaticResource b2pc}}"
+										 Foreground="White"
+										 FontFamily="Segoe UI"
+										 FontSize="12pt"
+										 FontWeight="Medium"
+										 HorizontalContentAlignment="Left"
+										 Padding="5"
+										 Margin="0"/>
 						</Grid>
 
 						<Grid>
@@ -91,23 +93,23 @@
 							</Grid.ColumnDefinitions>
 
 							<Label Content="Excluded Students: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
+										 Foreground="White"
+										 FontFamily="Segoe UI"
+										 FontSize="12pt"
+										 FontWeight="Light"
+										 HorizontalContentAlignment="Left"
+										 Padding="5"
+										 Margin="0"/>
 
 							<Label Grid.Column="1"
-															 Content="{Binding GradesZero.Count}"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
+										 Content="{Binding GradesZero.Count}"
+										 Foreground="White"
+										 FontFamily="Segoe UI"
+										 FontSize="12pt"
+										 FontWeight="Medium"
+										 HorizontalContentAlignment="Left"
+										 Padding="5"
+										 Margin="0"/>
 						</Grid>
 
 						<ItemsControl ItemsSource="{Binding GradesZero}">
@@ -219,21 +221,25 @@
 					</StackPanel>
 				</StackPanel>
 
-				<Grid VerticalAlignment="Bottom"
-							Height="80">
-					<Button Margin="20 15"
-									Foreground="White"
-									Content="Calculate Grades"
-									FontSize="18pt"
-									FontFamily="Segoe UI"
-									FontWeight="Medium"
-									Background="DodgerBlue"
-									IsEnabled="{Binding IsSourceGradesFolderValid}"
-									Command="{Binding CalculateGradesCommand}"/>
+				<Grid VerticalAlignment="Bottom">
+					<StackPanel Orientation="Vertical" Margin="0 10">
+						<Button Margin="20 5"
+										Foreground="White"
+										Content="Calculate Grades"
+										FontSize="18pt"
+										FontFamily="Segoe UI"
+										FontWeight="Medium"
+										Background="DodgerBlue"
+										IsEnabled="{Binding IsSourceGradesFolderValid}"
+										Command="{Binding CalculateGradesCommand}"/>
+
+					</StackPanel>
 				</Grid>
 			</Grid>
 
-			<Grid Column="1" Margin="30 20">
+			<Grid Column="1" 
+						Margin="30 20"
+						Visibility="{Binding IsViewingCalculationReport, Converter={StaticResource b2vc}}">
 				<Border CornerRadius="5" Background="#161C1C">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -241,12 +247,7 @@
 							<RowDefinition/>
 						</Grid.RowDefinitions>
 
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition/>
-								<ColumnDefinition/>
-							</Grid.ColumnDefinitions>
-
+						<UniformGrid Columns="2">
 							<Border CornerRadius="5"
 											Background="#DCD13D"
 											Margin="10 10">
@@ -260,7 +261,7 @@
 												 Padding="10 4"
 												 Margin="0"/>
 
-									<Label Content="Class B"
+									<Label Content="{Binding BestPerformingClass.ClassName}"
 												 Foreground="Black"
 												 FontFamily="Segoe UI"
 												 FontSize="24pt"
@@ -293,7 +294,7 @@
 													 Margin="0"/>
 
 										<Label Grid.Column="1"
-													 Content="80.06%"
+													 Content="{Binding AverageOfAllClasses, Converter={StaticResource b2pc}}"
 													 Foreground="White"
 													 FontFamily="Segoe UI"
 													 FontSize="12pt"
@@ -318,15 +319,55 @@
 													 Padding="10 4"
 													 Margin="0"/>
 
-										<Label Grid.Column="1"
-													 Content="29 (1 Excluded)"
+										<!--<Label Grid.Column="1"
+													 Content="{Binding TotalNumberOfStudents}"
 													 Foreground="White"
 													 FontFamily="Segoe UI"
 													 FontSize="12pt"
 													 FontWeight="Medium"
 													 HorizontalContentAlignment="Left"
 													 Padding="10 4"
-													 Margin="0"/>
+													 Margin="0"/>-->
+
+										<StackPanel Grid.Column="1"
+																Margin="10 0"
+																Orientation="Horizontal">
+											<Label Content="{Binding TotalNumberOfNonZeroStudents}"
+														 Foreground="White"
+														 FontFamily="Segoe UI"
+														 FontSize="12pt"
+														 FontWeight="Medium"
+														 HorizontalContentAlignment="Left"
+														 Padding="1 4 0 4"
+														 Margin="0"/>
+											
+											<Label Content=","
+														 Foreground="White"
+														 FontFamily="Segoe UI"
+														 FontSize="12pt"
+														 FontWeight="Medium"
+														 HorizontalContentAlignment="Left"
+														 Padding="1 4"
+														 Margin="0"/>
+											
+											<Label Content="{Binding TotalNumberOfExcludedStudents}"
+														 Foreground="White"
+														 FontFamily="Segoe UI"
+														 FontSize="12pt"
+														 FontWeight="Medium"
+														 HorizontalContentAlignment="Left"
+														 Padding="2 4"
+														 Margin="0"/>
+											
+											<Label Content="Excluded"
+														 Foreground="White"
+														 FontFamily="Segoe UI"
+														 FontSize="12pt"
+														 FontWeight="Medium"
+														 HorizontalContentAlignment="Left"
+														 Padding="2 4"
+														 Margin="0"/>
+										</StackPanel>
 									</Grid>
 
 									<Grid>
@@ -354,474 +395,20 @@
 													 Padding="10 4"
 													 Margin="0"/>
 									</Grid>
-
 								</StackPanel>
 							</Border>
-
-						</Grid>
+						</UniformGrid>
 
 						<Grid Row="1">
 							<ItemsControl ItemTemplate="{StaticResource ClassGradesCardTemplate}"
 														ItemsSource="{Binding CalculatedClassGrades}">
 								<ItemsControl.ItemsPanel>
 									<ItemsPanelTemplate>
-										<WrapPanel ItemWidth="450"/>
+										<UniformGrid Columns="2"
+																 VerticalAlignment="Top"/>
 									</ItemsPanelTemplate>
 								</ItemsControl.ItemsPanel>
 							</ItemsControl>
-							<!--<Grid.Resources>
-								<GridLength x:Key="LeftColumnGridLength">230</GridLength>
-							</Grid.Resources>-->
-
-							<!--<WrapPanel ItemWidth="420">
-								<Border CornerRadius="2"
-												Background="#4B6072"
-												Margin="10 5">
-									<StackPanel Orientation="Vertical"
-															Margin="10 5">
-										<Label Content="Class A Info"
-													 Foreground="White"
-													 FontFamily="Segoe UI"
-													 FontSize="14pt"
-													 FontWeight="Medium"
-													 HorizontalContentAlignment="Left"
-													 Margin="0"/>
-
-										<StackPanel Orientation="Vertical"
-																Margin="20 0 0 0">
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Number of Students in Calc:"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="9"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Class Average: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="79.44%"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Excluded Students: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="1"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-
-											<StackPanel Orientation="Vertical"
-																	Margin="20 0 0 0">
-												<Grid>
-													<Label Content="Edith Adkins"
-																 Foreground="White"
-																 FontFamily="Segoe UI"
-																 FontSize="12pt"
-																 FontWeight="Light"
-																 HorizontalContentAlignment="Left"
-																 Padding="5"
-																 Margin="0"/>
-												</Grid>
-											</StackPanel>
-										</StackPanel>
-									</StackPanel>
-								</Border>
-
-
-								<Border CornerRadius="2"
-												Background="#4B6072"
-												Margin="10 5">
-									<StackPanel Orientation="Vertical"
-															Margin="10 5">
-										<Label Content="Class A Info"
-													 Foreground="White"
-													 FontFamily="Segoe UI"
-													 FontSize="14pt"
-													 FontWeight="Medium"
-													 HorizontalContentAlignment="Left"
-													 Margin="0"/>
-
-										<StackPanel Orientation="Vertical"
-																Margin="20 0 0 0">
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Number of Students in Calc:"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="9"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Class Average: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="79.44%"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Excluded Students: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="1"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-
-											<StackPanel Orientation="Vertical"
-																	Margin="20 0 0 0">
-												<Grid>
-													<Label Content="Edith Adkins"
-																 Foreground="White"
-																 FontFamily="Segoe UI"
-																 FontSize="12pt"
-																 FontWeight="Light"
-																 HorizontalContentAlignment="Left"
-																 Padding="5"
-																 Margin="0"/>
-												</Grid>
-											</StackPanel>
-										</StackPanel>
-									</StackPanel>
-								</Border>
-
-
-								<Border CornerRadius="2"
-												Background="#4B6072"
-												Margin="10 5">
-									<StackPanel Orientation="Vertical"
-															Margin="10 5">
-										<Label Content="Class A Info"
-													 Foreground="White"
-													 FontFamily="Segoe UI"
-													 FontSize="14pt"
-													 FontWeight="Medium"
-													 HorizontalContentAlignment="Left"
-													 Margin="0"/>
-
-										<StackPanel Orientation="Vertical"
-																Margin="20 0 0 0">
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Number of Students in Calc:"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="9"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Class Average: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="79.44%"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Excluded Students: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="1"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-
-											<StackPanel Orientation="Vertical"
-																	Margin="20 0 0 0">
-												<Grid>
-													<Label Content="Edith Adkins"
-																 Foreground="White"
-																 FontFamily="Segoe UI"
-																 FontSize="12pt"
-																 FontWeight="Light"
-																 HorizontalContentAlignment="Left"
-																 Padding="5"
-																 Margin="0"/>
-												</Grid>
-											</StackPanel>
-										</StackPanel>
-									</StackPanel>
-								</Border>
-
-
-								<Border CornerRadius="2"
-												Background="#4B6072"
-												Margin="10 5">
-									<StackPanel Orientation="Vertical"
-															Margin="10 5">
-										<Label Content="Class A Info"
-													 Foreground="White"
-													 FontFamily="Segoe UI"
-													 FontSize="14pt"
-													 FontWeight="Medium"
-													 HorizontalContentAlignment="Left"
-													 Margin="0"/>
-
-										<StackPanel Orientation="Vertical"
-																Margin="20 0 0 0">
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Number of Students in Calc:"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="9"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Class Average: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="79.44%"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="{StaticResource LeftColumnGridLength}"/>
-													<ColumnDefinition/>
-												</Grid.ColumnDefinitions>
-
-												<Label Content="Excluded Students: "
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Light"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-
-												<Label Grid.Column="1"
-															 Content="1"
-															 Foreground="White"
-															 FontFamily="Segoe UI"
-															 FontSize="12pt"
-															 FontWeight="Medium"
-															 HorizontalContentAlignment="Left"
-															 Padding="5"
-															 Margin="0"/>
-											</Grid>
-
-
-											<StackPanel Orientation="Vertical"
-																	Margin="20 0 0 0">
-												<Grid>
-													<Label Content="Edith Adkins"
-																 Foreground="White"
-																 FontFamily="Segoe UI"
-																 FontSize="12pt"
-																 FontWeight="Light"
-																 HorizontalContentAlignment="Left"
-																 Padding="5"
-																 Margin="0"/>
-												</Grid>
-											</StackPanel>
-										</StackPanel>
-									</StackPanel>
-								</Border>
-
-							</WrapPanel>-->
 						</Grid>
 					</Grid>
 				</Border>

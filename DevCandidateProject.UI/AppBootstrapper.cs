@@ -17,8 +17,9 @@ namespace DevCandidateProject.UI
     {
       var settings = new Dictionary<string, object>
         {
-          { "SizeToContent", SizeToContent.Manual },
-          { "WindowState" , WindowState.Maximized }
+          { "ResizeMode", ResizeMode.NoResize },
+          //{ "SizeToContent", SizeToContent.Manual },
+          //{ "WindowState" , WindowState.Maximized }
         };
 
       DisplayRootViewFor<RootViewModel>(settings);
