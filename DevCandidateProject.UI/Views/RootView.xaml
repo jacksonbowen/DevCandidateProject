@@ -146,7 +146,7 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
-		<Grid Background="#5E1CCF" Panel.ZIndex="1000">
+		<Grid Background="LightSlateGray" Panel.ZIndex="1000">
 			<Grid.Effect>
 				<DropShadowEffect Color="Black" Direction="-90" Opacity=".47" BlurRadius="8" ShadowDepth="5"></DropShadowEffect>
 			</Grid.Effect>
@@ -182,7 +182,7 @@
 								 HorizontalContentAlignment="Center"
 								 Padding="10 5"/>
 
-					<TextBox Foreground="DarkSlateGray"
+					<TextBox Foreground="#283149"
 									 Margin="10"
 									 FontFamily="Segoe UI"
 									 FontSize="14pt"
@@ -229,7 +229,7 @@
 										FontSize="18pt"
 										FontFamily="Segoe UI"
 										FontWeight="Medium"
-										Background="DodgerBlue"
+										Background="#00818a"
 										IsEnabled="{Binding IsSourceGradesFolderValid}"
 										Command="{Binding CalculateGradesCommand}"/>
 
@@ -249,7 +249,7 @@
 
 						<UniformGrid Columns="2">
 							<Border CornerRadius="5"
-											Background="#DCD13D"
+											Background="#ebde34"
 											Margin="10 10">
 								<StackPanel Orientation="Vertical">
 									<Label Content="Best Performing Class"
